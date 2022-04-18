@@ -1,5 +1,4 @@
 package animateatlas;
-
 import flixel.util.FlxDestroyUtil;
 import openfl.geom.Rectangle;
 import flixel.math.FlxPoint;
@@ -14,9 +13,15 @@ import animateatlas.displayobject.SpriteMovieClip;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxFramesCollection;
 import flixel.graphics.frames.FlxFrame;
+#if MODS_ALLOWED
+import sys.FileSystem;
+import sys.io.File;
+#else
+import js.html.FileSystem;
+import js.html.File;
+#end
 
 using StringTools;
-
 class AtlasFrameMaker extends FlxFramesCollection
 {
 	//public static var widthoffset:Int = 0;
@@ -31,7 +36,7 @@ class AtlasFrameMaker extends FlxFramesCollection
 	*
 	*/
 
-	public static function construct(key:String,?_excludeArray:Array<String> = null, ?noAntialiasing:Bool = false):FlxFramesCollection
+	public static function construct(key:String,?_excludeArray:Array<String> = null):FlxFramesCollection
 	{
 		// widthoffset = _widthoffset;
 		// heightoffset = _heightoffset;
@@ -51,8 +56,10 @@ class AtlasFrameMaker extends FlxFramesCollection
 
 		var graphic:FlxGraphic = Paths.image('$key/spritemap');
 		var ss:SpriteAnimationLibrary = new SpriteAnimationLibrary(animationData, atlasData, graphic.bitmap);
+		var t:SpriteMovieClip = ss.createAnimation();
 		if(_excludeArray == null)
 		{
+			_excludeArray = t.getFrameLabels();
 			//trace('creating all anims');
 		}
 		trace('Creating: ' + _excludeArray);
@@ -60,7 +67,7 @@ class AtlasFrameMaker extends FlxFramesCollection
 		frameCollection = new FlxFramesCollection(graphic, FlxFrameCollectionType.IMAGE);
 		for(x in _excludeArray)
 		{
-			//frameArray.push(getFramesArray(t, x));
+			frameArray.push(getFramesArray(t, x));
 		}
 
 		for(x in frameArray)
