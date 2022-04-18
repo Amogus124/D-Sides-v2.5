@@ -53,7 +53,6 @@ class AtlasFrameMaker extends FlxFramesCollection
 		var ss:SpriteAnimationLibrary = new SpriteAnimationLibrary(animationData, atlasData, graphic.bitmap);
 		if(_excludeArray == null)
 		{
-			_excludeArray = t.getFrameLabels();
 			//trace('creating all anims');
 		}
 		trace('Creating: ' + _excludeArray);
@@ -61,8 +60,6 @@ class AtlasFrameMaker extends FlxFramesCollection
 		frameCollection = new FlxFramesCollection(graphic, FlxFrameCollectionType.IMAGE);
 		for(x in _excludeArray)
 		{
-			frameArray.push(getFramesArray(t, x));
-		}
 
 		for(x in frameArray)
 		{
